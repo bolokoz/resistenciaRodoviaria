@@ -3,6 +3,7 @@
 #    http://shiny.rstudio.com/
 #asdasd
 
+library(ggplot2)
 library(shiny)
 library(plotly)
 
