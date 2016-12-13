@@ -44,20 +44,35 @@ server <- function(input, output) {
 
     pot = function(x)
       (input$nL * input$P * 2175 / x)
-    pot2 = function(x)
-      (input$nL * input$P * 1115 / x)
 
 
-    vel = seq(input$vmin, input$vmax)
+    vel = seq(input$vmin, input$vmax, 0.1)
     po = pot(vel) / 1000
     rt = rr(vel) + ra(vel) + rc + rg
 
     data = data.frame(vel, po, rt)
+    
+    layout_settings_x = list(
+      title = " Velocidade [kmh]",
+      dtick = 10
+      
+      
+    )
+    
+    layout_settings_y = list(
+      title = " Forca [kN]",
+      exponentformat = "E",
+      dtick = 200
+      
+    )
 
 
     plot_ly(data, x = ~ vel) %>%
-      add_trace(y = ~ po, mode = 'lines') %>%
-      add_trace(y = ~ rt, mode = 'lines')
+      add_trace(y = ~ po, mode = 'lines', type='scatter', name = "Forca Motriz") %>%
+      add_trace(y = ~ rt, mode = 'lines', type='scatter', name = "Resistencia total ") %>%
+      layout(title = " Forca x Velocidade",
+             xaxis = layout_settings_x,
+             yaxis = layout_settings_y)
 
   })
   #########
@@ -70,6 +85,43 @@ server <- function(input, output) {
     else
       d
   })
+  
+  output$table <- renderTable({
+    
+    resistences = c("Rolamento", "Aerodinamica", "Curva", "Rampa")
+    tipos = c("1 Locomotiva","1 Vagao")
+    
+    txt_rrl = paste(formatC(input$lC1 + (input$lC2 * input$xL / input$gL))," + ", input$lC3, "* v")
+    txt_ral = paste(input$lCa * input$aL, "* v^2")
+    txt_rgl = paste(input$gL * 10 * input$i)
+    
+    txt_rrv = paste(formatC(input$vC1 + (input$vC2 * input$xV / input$gV))," + ", input$vC3, "* v")
+    txt_rav = paste(input$vCa * input$aV, "* v^2")
+    txt_rgv = paste(input$gV * 10 * input$i)
+    
+    
+    if (input$r != 0) {
+      txt_rcl = (698 * input$gL / input$r)
+      txt_rcv = (698 * input$gV / input$r)
+    } else{
+      txt_rcl = 0
+      txt_rcv = 0
+    }
+    
+    locomotiva = c(txt_rrl, txt_ral, txt_rgl, txt_rcl)
+    vagao = c(txt_rrv, txt_rav, txt_rgv, txt_rcv)
+    
+    Rolamento = c(txt_rrl, txt_rrv)
+    Aero = c(txt_ral, txt_rav)
+    Rampa = c(txt_rgl, txt_rgv)
+    Curva = c(txt_rcl, txt_rcv)
+    
+    
+    df = data.frame(Rolamento,Aero,Curva,Rampa)
+    row.names(df) = tipos
+    df
+    
+  },rownames=TRUE)
   
   #######
   # SHOW RL
@@ -87,7 +139,7 @@ server <- function(input, output) {
           " + ",
           input$lC3 , "*v",
           " + ",
-          input$lCa , "*v^2")
+          input$lCa * input$aL, "*v^2")
   })
   
   #######
@@ -97,18 +149,16 @@ server <- function(input, output) {
 
     if (input$r != 0) {
       rLc = (698 * input$gL / input$r)
-      rVc = (698 * input$gV / input$r)
-      rc = rLc + rVc
-
     } else{
-      rc = 0
+      rLc = 0
     }
-
-    rLa = function(x)
-      (input$lCa * x ^ 2 * input$aL * input$nL)
-
-    vel = seq(input$vmin, input$vmax)
-    paste("x->", rLa(vel))
+    
+    paste("Resistencia de um vagao",
+          formatC(input$lC1 + (input$lC2 * input$xL / input$gL) + rLc + (input$gL * 10 * input$i)),
+          " + ",
+          input$lC3 , "*v",
+          " + ",
+          input$lCa * input$aL, "*v^2")
   })
   
   #######

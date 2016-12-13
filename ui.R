@@ -189,6 +189,7 @@ shinyUI(fluidPage(
   mainPanel(
     plotlyOutput("distPlot"),
     verbatimTextOutput("hover"),
+    tableOutput("table"),
     textOutput("rr"),
     textOutput("rL"),
     textOutput("rV")
