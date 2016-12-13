@@ -3,7 +3,6 @@
 #    http://shiny.rstudio.com/
 #asdasd
 
-library(ggplot2)
 library(shiny)
 library(plotly)
 
@@ -187,5 +186,11 @@ shinyUI(fluidPage(
     )
   ),
   # Show a plot of the generated distribution
-  mainPanel(plotlyOutput("distPlot")))
+  mainPanel(
+    plotlyOutput("distPlot"),
+    verbatimTextOutput("hover"),
+    textOutput("rr"),
+    textOutput("rL"),
+    textOutput("rV")
+    ))
 ))
