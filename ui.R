@@ -21,7 +21,7 @@ shinyUI(fluidPage(
           "Numero de locomotivas:",
           min = 0,
           max = 50,
-          value = 2
+          value = 3
         ),
         numericInput(
           "gL",
@@ -36,13 +36,6 @@ shinyUI(fluidPage(
           min = 1,
           max = 50,
           value = 4
-        ),
-        numericInput(
-          "aL",
-          "Area frontal [m2]",
-          min = 0,
-          max = 50,
-          value = 10
         ),
         numericInput(
           "P",
@@ -73,11 +66,18 @@ shinyUI(fluidPage(
           value = 0.009
         ),
         numericInput(
+          "aL",
+          "Area frontal [m2]",
+          min = 0,
+          max = 50,
+          value = 10
+        ),
+        numericInput(
           "lCa",
           "ca:",
           min = 0,
           max = 90000,
-          value = 0.009
+          value = 0.046
         ),
         numericInput(
           "f",
@@ -111,13 +111,6 @@ shinyUI(fluidPage(
           value = 4
         ),
         numericInput(
-          "aV",
-          "Area frontal [m2]",
-          min = 0,
-          max = 50,
-          value = 8.5
-        ),
-        numericInput(
           "vC1",
           "c1:",
           min = 0,
@@ -136,7 +129,14 @@ shinyUI(fluidPage(
           "c3:",
           min = 0,
           max = 90000,
-          value = 0.009
+          value = 0.013
+        ),
+        numericInput(
+          "aV",
+          "Area frontal [m2]",
+          min = 0,
+          max = 50,
+          value = 8.5
         ),
         numericInput(
           "vCa",
@@ -173,14 +173,14 @@ shinyUI(fluidPage(
           "Velocidade maxima:",
           min = 0,
           max = 9000,
-          value = 120
+          value = 105
         ),
         numericInput(
           "vmin",
           "Velocidade minima:",
           min = 0,
           max = 5000,
-          value = 10
+          value = 15
         )
       )
     )
