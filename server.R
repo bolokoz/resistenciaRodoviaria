@@ -31,6 +31,10 @@ server <- function(input, output) {
     rLg = (input$gL * 10 * input$i)*input$nL
     rVg = (input$gV * 10 * input$i)*input$nV
     rg = rLg + rVg
+    
+    # if(input$i < 0){
+    #   rg = 0
+    # }
 
     if (input$r != 0) {
       rLc = (698 * input$gL / input$r)*input$nL
@@ -45,13 +49,19 @@ server <- function(input, output) {
     ft1 = function(x)
       (input$nL * input$P * 2175 / x)
 
-
     vel = seq(input$vmin, input$vmax*1.1, 0.1)
     ft = ft1(vel) / 1000
     rt = (rr(vel)  + ra(vel)  + rc  + rg)/1000
-    
+  
     vel_lim = c(input$vmin,input$vmax)
     ftmax = input$nL * input$gL * input$f
+    
+    ## CASO A RAMPA FOR NEGATIVA, DESLIGA-SE OS MOTORES
+    
+    if(input$i < 0){
+      ft1 = function(x) input$i * (input$nL * input$gL + input$nV * input$gV)
+      ft = ft1(vel)/1000
+    }
 
     data = data.frame(vel, ft, rt)
     
@@ -65,11 +75,8 @@ server <- function(input, output) {
       title = " Forca [kN]",
       exponentformat = "E",
       dtick = 200,
-      rangemode = "nonnegative",
       range = c(0, ftmax*1.2 )
     )
-    
-
 
 
     plot_ly(data, x = ~ vel) %>%

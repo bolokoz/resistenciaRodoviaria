@@ -161,7 +161,7 @@ shinyUI(fluidPage(
         numericInput(
           "i",
           "Inclininacao da rampa:",
-          min = 0,
+          min = -50,
           max = 50,
           value = 0
         )
@@ -188,10 +188,6 @@ shinyUI(fluidPage(
   # Show a plot of the generated distribution
   mainPanel(
     plotlyOutput("distPlot"),
-    verbatimTextOutput("hover"),
-    tableOutput("table"),
-    textOutput("rr"),
-    textOutput("rL"),
-    textOutput("rV")
+    tableOutput("table")
     ))
 ))
