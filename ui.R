@@ -84,7 +84,8 @@ shinyUI(fluidPage(
           "Aderencia das rodas:",
           min = 0,
           max = 10,
-          value = 0.2
+          value = 0.2,
+          step = 0.02
         )
       ),
       tabPanel(
@@ -101,7 +102,8 @@ shinyUI(fluidPage(
           "Peso [kN]:",
           min = 0,
           max = 50000,
-          value = 1100
+          value = 1100,
+          step = 100
         ),
         numericInput(
           "xV",
@@ -115,14 +117,16 @@ shinyUI(fluidPage(
           "c1:",
           min = 0,
           max = 90000,
-          value = 0.65
+          value = 0.65,
+          step = 0.05
         ),
         numericInput(
           "vC2",
           "c2:",
           min = 0,
           max = 90000,
-          value = 125
+          value = 125,
+          step = 1
         ),
         numericInput(
           "vC3",
@@ -136,24 +140,27 @@ shinyUI(fluidPage(
           "Area frontal [m2]",
           min = 0,
           max = 50,
-          value = 8.5
+          value = 8.5,
+          step = 0.5
         ),
         numericInput(
           "vCa",
           "ca:",
           min = 0,
           max = 90000,
-          value = 0.009
+          value = 0.009,
+          step = 0.001
         )
       ),
       tabPanel(
         "Curva",
         numericInput(
           "r",
-          "Raio da rampa [m]:",
+          "Raio da curva [m]:",
           min = 0,
           max = 50000,
-          value = 0
+          value = 0,
+          step = 50
         )
       ),
       tabPanel(
@@ -163,7 +170,8 @@ shinyUI(fluidPage(
           "Inclininacao da rampa:",
           min = -50,
           max = 50,
-          value = 0
+          value = 0,
+          step = 0.05
         )
       ),
       tabPanel(
