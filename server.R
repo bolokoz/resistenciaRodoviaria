@@ -95,7 +95,8 @@ server <- function(input, output) {
       
       layout(title = " Forca x Velocidade",
              xaxis = layout_settings_x,
-             yaxis = layout_settings_y)
+             yaxis = layout_settings_y,
+             legend = list(orientation = 'h'))
 
   })
   #########
