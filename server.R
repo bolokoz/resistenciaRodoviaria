@@ -162,26 +162,42 @@ server <- function(input, output) {
   #######
   # SHOW RL
 
-  output$rL <- renderText({
+  output$rt <- renderText({
 
     if (input$r != 0) {
       rLc = (698 * input$gL / input$r)
+      rVc = (698 * input$gV / input$r)
     } else{
       rLc = 0
+      rVc = 0
     }
 
-    paste("Resistencia de todas locomotiva",
+    paste("Resistencia total",
           formatC(
+            # locomotiva
+            ( 
+              ((input$lC1 + input$lC2 * input$xL / input$gL) * input$gL +
+                    + rLc + (input$gL * 10 * input$i)
+                )* input$nL
+            )
+            +
+            #vagao
             (
-              (input$lC1 + input$lC2 * input$xL / input$gL) * input$gL +
-                  + rLc + (input$gL * 10 * input$i)
-              )* input$nL
-            ),
+              ((input$vC1 + input$vC2 * input$xV / input$gV) * input$gV +
+                  + rVc + (input$gV * 10 * input$i)
+                )* input$nV
+            )),
           " + ",
-          (input$lC3 * input$nL* input$gL) , "*v",
+            ##
+          (input$lC3 * input$nL* input$gL)
+          +
+          (input$vC3 * input$nV* input$gV)
+            , "*v",
           " + ",
-          input$lCa * input$aL * input$nL, "*v^2")
-  })
+          input$lCa * input$aL * input$nL +
+            input$vCa * input$aV * input$nV, "*v^2")
+  }
+  )
   
   output$rV <- renderText({
     
@@ -207,20 +223,11 @@ server <- function(input, output) {
   #######
   # SHOW RV
 
-  output$rVaa <- renderText({
+  output$ft <- renderText({
 
-    if (input$r != 0) {
-      rLc = (698 * input$gL / input$r)
-    } else{
-      rLc = 0
-    }
-    
-    paste("Resistencia de um vagao",
-          formatC(input$lC1 + (input$lC2 * input$xL / input$gL) + rLc + (input$gL * 10 * input$i)),
-          " + ",
-          input$lC3 , "*v",
-          " + ",
-          input$lCa * input$aL, "*v^2")
+    paste("Forca motriz",
+          formatC(input$nL * input$P * 2175),
+          "/ V")
   })
   
   #######

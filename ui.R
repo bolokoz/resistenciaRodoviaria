@@ -197,8 +197,8 @@ shinyUI(fluidPage(
   mainPanel(
     plotlyOutput("distPlot"),
     tableOutput("table"),
-    textOutput("rL"),
-    textOutput("rV"),
+    textOutput("ft"),
+    textOutput("rt"),
     hr(),
     h3(
     a(href="http://yuribecker.com.br","yuribecker.com.br")
