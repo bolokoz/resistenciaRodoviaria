@@ -196,6 +196,12 @@ shinyUI(fluidPage(
   # Show a plot of the generated distribution
   mainPanel(
     plotlyOutput("distPlot"),
-    tableOutput("table")
+    tableOutput("table"),
+    textOutput("rL"),
+    textOutput("rV"),
+    hr(),
+    h3(
+    a(href="http://yuribecker.com.br","yuribecker.com.br")
+    )
     ))
 ))

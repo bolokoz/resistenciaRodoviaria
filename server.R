@@ -83,11 +83,11 @@ server <- function(input, output) {
       add_trace(y = ~ ft, mode = 'lines', type='scatter', name = "Forca Motriz") %>%
       add_trace(y = ~ rt, mode = 'lines', type='scatter', name = "Resistencia total ") %>%
 
-      add_trace(x = c(0,30), y = ftmax, name = "Limite aderencia",
+      add_trace(x = vel_lim, y = ftmax, name = "Limite aderencia",
                 mode = "lines", type='scatter',
                 line = list(dash='dash')) %>%
       
-      add_trace(x = input$vmax, y = c(0,300), name = "Limite velocidade",
+      add_trace(x = input$vmax, y = c(0,ftmax), name = "Limite velocidade",
                 mode = "lines",type='scatter',
                 line = list(dash='dash')) %>%
       # add_trace(x = c(0,110), y = c(800,800),name = "Limite Corrente Eletrica",
@@ -118,12 +118,13 @@ server <- function(input, output) {
     txt_ral = paste(input$lCa * input$aL, "* v^2")
     txt_rgl = paste(input$gL * 10 * input$i)
     
-    txt_rrv = paste(formatC((input$vC1 + (input$vC2 * input$xV / input$gV))* input$gL)," + ", input$vC3* input$gL, "* v")
+    txt_rrv = paste(formatC((input$vC1 + (input$vC2 * input$xV / input$gV))* input$gV)," + ", input$vC3* input$gV, "* v")
     txt_rav = paste(input$vCa * input$aV, "* v^2")
     txt_rgv = paste(input$gV * 10 * input$i)
     
     ##calculo para todos os veiculos
     
+  
     txt_trrl = paste(formatC((input$lC1 * input$nL * input$gL+ (input$lC2 * input$xL / input$gL)* input$gL* input$nL))," + ", input$lC3 * input$gL * input$nL, "* v")
     txt_tral = paste(input$lCa * input$aL* input$nL, "* v^2") 
     txt_trgl = paste(input$gL * 10 * input$i * input$nL) 
@@ -179,13 +180,34 @@ server <- function(input, output) {
           " + ",
           (input$lC3 * input$nL* input$gL) , "*v",
           " + ",
-          input$lCa * input$aL, "*v^2")
+          input$lCa * input$aL * input$nL, "*v^2")
+  })
+  
+  output$rV <- renderText({
+    
+    if (input$r != 0) {
+      rVc = (698 * input$gV / input$r)
+    } else{
+      rVc = 0
+    }
+    
+    paste("Resistencia de todas vagao",
+          formatC(
+            (
+              (input$vC1 + input$vC2 * input$xV / input$gV) * input$gV +
+                + rVc + (input$gV * 10 * input$i)
+            )* input$nV
+          ),
+          " + ",
+          (input$vC3 * input$nV* input$gV) , "*v",
+          " + ",
+          input$vCa * input$aV * input$nV, "*v^2")
   })
   
   #######
   # SHOW RV
 
-  output$rV <- renderText({
+  output$rVaa <- renderText({
 
     if (input$r != 0) {
       rLc = (698 * input$gL / input$r)
